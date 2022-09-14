@@ -6,13 +6,23 @@ import { Link } from "react-router-dom";
 
 // import { Link } from "react-router-dom";
 
-function SignUp() {
+function SignUp(props) {
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    passwordShown,
+    setPasswordShown,
+    togglePassword,
+    handleLogin,
+    handleSignup,
+    hasAccount,
+    setHasAccount,
+    emailError,
+    passwordError,
+  } = props;
   const [showModal, setShowModal] = useState(false);
-  const [passwordShown, setPasswordShown] = useState(false);
-
-  const togglePassword = () => {
-    setPasswordShown(!passwordShown);
-  };
 
   return (
     <div className="flex mx-8 ">
@@ -31,11 +41,13 @@ function SignUp() {
             <div className="flex flex-col pb-6">
               <label htmlFor="email">Enter Emails</label>
               <input
+              autofocus
                 type="text"
                 name="email"
+                value={email}
                 className="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                 required
-                onChange={(e) => {}}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
@@ -46,10 +58,11 @@ function SignUp() {
                 type={passwordShown ? "text" : "password"}
                 name="password"
                 id="password"
+                value={password}
                 placeholder="••••••••"
                 className="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                 required=""
-                onChange={(e) => {}}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <div>
                 <p
@@ -61,17 +74,28 @@ function SignUp() {
                 </p>
               </div>
             </div>
-
-            <div className="flex justify-end py-4">
-              <button
-                type="submit"
-                className="bg-blue-700 text-white font-bold py-2 px-4 rounded focus:ring focus:ring-blue-300 hover:bg-blue-500"
-                onClick={() => {
-                  setShowModal(true);
-                }}
-              >
-                Create account
-              </button>
+            <div className="">
+              {hasAccount}
+              <div className="flex ">
+                <button
+                  type="submit"
+                  className="bg-blue-700 text-white font-bold py-2 px-4 rounded focus:ring focus:ring-blue-300 hover:bg-blue-500"
+                  onClick={() => {
+                    setShowModal(true);
+                    handleSignup();
+                  }}
+                >
+                  Create account
+                </button>
+                <Link to="/login">
+                  <p className="ml-8 pt-2">
+                    Already have an account
+                    <span className="text-blue-500 mx-2 mouse-pointer hover:text-blue-700">
+                      Login
+                    </span>
+                  </p>
+                </Link>
+              </div>
             </div>
           </form>
         </div>
