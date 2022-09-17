@@ -1,7 +1,8 @@
 import React from "react";
 import "tailwindcss/tailwind.css";
 
-function Entry() {
+function Entry(props) {
+  const { handleLogout } = props;
   return (
     <div className="mx-8">
       <div>
@@ -49,6 +50,13 @@ function Entry() {
           </div>
         </form>
       </div>
+      <button
+        className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        type="button"
+        onclick={handleLogout}
+      >
+        logout
+      </button>
     </div>
   );
 }

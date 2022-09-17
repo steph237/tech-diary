@@ -1,6 +1,6 @@
 import React from "react";
 import "tailwindcss/tailwind.css";
-import { useState } from "react";
+
 import GetImages from "../components/Getimages";
 import { Link } from "react-router-dom";
 
@@ -8,21 +8,24 @@ import { Link } from "react-router-dom";
 
 function SignUp(props) {
   const {
-    email,
-    setEmail,
-    password,
-    setPassword,
+    registerEmail,
+    setRegisterEmail,
+    registerPassword,
+    setRegisterPassword,
     passwordShown,
     setPasswordShown,
     togglePassword,
-    handleLogin,
-    handleSignup,
+    register,
     hasAccount,
     setHasAccount,
     emailError,
     passwordError,
+    showModal,
+    setShowModal,
+    user,
+    setUser,
+    logout,
   } = props;
-  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="flex mx-8 ">
@@ -41,14 +44,16 @@ function SignUp(props) {
             <div className="flex flex-col pb-6">
               <label htmlFor="email">Enter Emails</label>
               <input
-              autofocus
+                autoFocus
                 type="text"
                 name="email"
-                value={email}
+                id="email"
+                value={registerEmail}
                 className="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                 required
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setRegisterEmail(e.target.value)}
               />
+              <p className="font-xs text-red-500">{emailError}</p>
             </div>
 
             <div className="pb-6">
@@ -58,12 +63,13 @@ function SignUp(props) {
                 type={passwordShown ? "text" : "password"}
                 name="password"
                 id="password"
-                value={password}
+                value={registerPassword}
                 placeholder="••••••••"
                 className="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                 required=""
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setRegisterPassword(e.target.value)}
               />
+              <p className="font-xs text-red-500">{passwordError}</p>
               <div>
                 <p
                   onClick={togglePassword}
@@ -81,8 +87,8 @@ function SignUp(props) {
                   type="submit"
                   className="bg-blue-700 text-white font-bold py-2 px-4 rounded focus:ring focus:ring-blue-300 hover:bg-blue-500"
                   onClick={() => {
-                    setShowModal(true);
-                    handleSignup();
+                    register();
+                    setShowModal();
                   }}
                 >
                   Create account
@@ -99,6 +105,8 @@ function SignUp(props) {
             </div>
           </form>
         </div>
+        <h4> {user?.email}</h4>
+        <button onClick={logout}>logout</button>
       </div>
       {showModal ? (
         <>
@@ -121,8 +129,8 @@ function SignUp(props) {
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
                   <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                    Account successfully created. Please Log In to save diary
-                    entries
+                    <span>{user.email}</span> Account successfully created.
+                    Please Log In to save diary entries
                   </p>
                 </div>
                 {/*footer*/}

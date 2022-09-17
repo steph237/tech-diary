@@ -1,6 +1,6 @@
 import React from "react";
 import "tailwindcss/tailwind.css";
-import { useState } from "react";
+
 import GetImages from "../components/Getimages";
 import { Link } from "react-router-dom";
 
@@ -14,11 +14,15 @@ function Login(props) {
     setPasswordShown,
     togglePassword,
     handleLogin,
-    handleSignup,
     hasAccount,
     setHasAccount,
     emailError,
     passwordError,
+    loginEmail,
+    setLoginEmail,
+    loginPassword,
+    login,
+    setLoginPassword,
   } = props;
 
   return (
@@ -42,8 +46,8 @@ function Login(props) {
                 type="text"
                 id="email"
                 name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
                 className="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                 required
               />
@@ -57,11 +61,11 @@ function Login(props) {
                 type={passwordShown ? "text" : "password"}
                 name="password"
                 id="password"
-                value={password}
+                value={loginPassword}
                 placeholder="••••••••"
                 className="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                 required=""
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setLoginPassword(e.target.value)}
               />
               <p className="font-xs text-red-500">{passwordError}</p>
             </div>
@@ -80,13 +84,13 @@ function Login(props) {
                 <button
                   type="submit"
                   className="bg-blue-700 text-white font-bold py-2 px-4 mr-4 rounded focus:ring focus:ring-blue-300 hover:bg-blue-500"
-                  onClick={handleLogin}
+                  onClick={login}
                 >
                   Login
                 </button>
                 <Link to="/signUp">
                   <p className="ml-8 pt-2">
-                    Dont have an account
+                    Dont have an account?
                     <span className="text-blue-500 mx-2 mouse-pointer hover:text-blue-700">
                       SignUp
                     </span>
