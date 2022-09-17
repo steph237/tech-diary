@@ -6,18 +6,17 @@ import { Link } from "react-router-dom";
 
 function Login(props) {
   const {
-    email,
-    setEmail,
-    password,
-    setPassword,
     passwordShown,
     setPasswordShown,
     togglePassword,
-    handleLogin,
     hasAccount,
     setHasAccount,
     emailError,
     passwordError,
+    setLoginEmailError,
+    setLoginPasswordError,
+    loginEmailError,
+    loginPasswordError,
     loginEmail,
     setLoginEmail,
     loginPassword,
@@ -51,7 +50,7 @@ function Login(props) {
                 className="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                 required
               />
-              <p className="font-xs text-red-500">{emailError}</p>
+              <p className="font-xs text-red-500">{loginEmailError}</p>
             </div>
 
             <div className="pb-6">
@@ -67,7 +66,7 @@ function Login(props) {
                 required=""
                 onChange={(e) => setLoginPassword(e.target.value)}
               />
-              <p className="font-xs text-red-500">{passwordError}</p>
+              <p className="font-xs text-red-500">{loginPasswordError}</p>
             </div>
 
             <p

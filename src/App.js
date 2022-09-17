@@ -19,8 +19,10 @@ function App() {
   const [loginEmail, setLoginEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [regEmailError, setRegEmailError] = useState("");
+  const [regPasswordError, setRegPasswordError] = useState("");
+  const [loginEmailError, setLoginEmailError] = useState("");
+  const [loginPasswordError, setLoginPasswordError] = useState("");
   const [user, setUser] = useState({});
   const [hasAccount, setHasAccount] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
@@ -44,10 +46,7 @@ function App() {
   useEffect(() => {
     authListener();
   }, []);
-  // onAuthStateChanged(auth, (currentUser) => {
-  //   setUser(currentUser);
 
-  // });
   const register = async () => {
     clearError();
     try {
@@ -57,23 +56,23 @@ function App() {
         registerPassword
       );
       console.log(user);
-    } catch (err) {
-      // eslint-disable-next-line default-case
-      switch (err.code) {
-        case "auth/email-already-use":
-        case "auth/invalid-email":
-          setEmailError(err.message);
-          break;
-        case "auth/weak-password":
-          setPasswordError(err.message);
-          break;
+    } catch (error) {
+      if (error.code === "auth/invalid-email") {
+        setRegEmailError("Enter valid email");
+      } else if (error.code === "auth/weak-password") {
+        setRegPasswordError("Password must be more than 6 characters");
+      } else if (error.code === "auth/email-already-use") {
+        setRegEmailError("Email already in use");
+      } else {
+        setRegEmailError(error.message);
+        setRegPasswordError(error.message);
       }
-      console.log(err.message);
     }
     setShowModal();
   };
 
   const login = async () => {
+    clearError();
     try {
       const user = await signInWithEmailAndPassword(
         auth,
@@ -82,7 +81,17 @@ function App() {
       );
       console.log(user);
     } catch (error) {
-      console.log(error.message);
+      // eslint-disable-next-line default-case
+      if (error.code === "auth/invalid-email") {
+        setLoginEmailError("Enter valid email");
+      } else if (error.code === "auth/user-disabled") {
+        setLoginEmailError("User account has been disabled");
+      } else if (error.code === "auth/user-not-found") {
+        setLoginEmailError("User account does not exist please SignUp");
+      } else {
+        setLoginEmailError(error.message);
+        setLoginPasswordError(error.message);
+      }
     }
   };
 
@@ -98,8 +107,8 @@ function App() {
   };
 
   const clearError = () => {
-    setEmailError("");
-    setPasswordError("");
+    setRegEmailError("");
+    setRegPasswordError("");
   };
 
   // const validatePassword = () => {
@@ -131,8 +140,10 @@ function App() {
                 togglePassword={togglePassword}
                 hasAccount={hasAccount}
                 setHasAccount={setHasAccount}
-                emailError={emailError}
-                passwordError={passwordError}
+                loginEmailError={loginEmailError}
+                loginPasswordError={loginPasswordError}
+                setLoginEmailError={setLoginEmailError}
+                setLoginPasswordError={setLoginPasswordError}
                 login={login}
               />
             }
@@ -153,8 +164,10 @@ function App() {
                 register={register}
                 hasAccount={hasAccount}
                 setHasAccount={setHasAccount}
-                emailError={emailError}
-                passwordError={passwordError}
+                regEmailError={regEmailError}
+                regPasswordError={regPasswordError}
+                setRegEmailError={setRegEmailError}
+                setLoginPasswordError={setLoginPasswordError}
                 showModal={showModal}
                 setShowModal={setShowModal}
                 user={user}

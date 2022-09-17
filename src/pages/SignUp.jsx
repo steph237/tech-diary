@@ -24,6 +24,8 @@ function SignUp(props) {
     setShowModal,
     user,
     setUser,
+    regEmailError,
+    regPasswordError,
     logout,
   } = props;
 
@@ -53,7 +55,7 @@ function SignUp(props) {
                 required
                 onChange={(e) => setRegisterEmail(e.target.value)}
               />
-              <p className="font-xs text-red-500">{emailError}</p>
+              <p className="font-xs text-red-500">{regEmailError}</p>
             </div>
 
             <div className="pb-6">
@@ -69,7 +71,7 @@ function SignUp(props) {
                 required=""
                 onChange={(e) => setRegisterPassword(e.target.value)}
               />
-              <p className="font-xs text-red-500">{passwordError}</p>
+              <p className="font-xs text-red-500">{regPasswordError}</p>
               <div>
                 <p
                   onClick={togglePassword}
