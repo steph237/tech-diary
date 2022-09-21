@@ -6,6 +6,8 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Entry from "./pages/Entry/Entry";
 
+// import { useNavigate } from "@react-navigation/native";
+
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -95,6 +97,7 @@ function App() {
 
   const logout = async () => {
     await signOut(auth);
+    console.log("fuck");
   };
 
   const clearInputs = () => {
@@ -113,7 +116,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route logout={logout} path="/entry" element={<Entry />} />
+          <Route path="/entry" element={<Entry logout={logout} />} />
           <Route
             path="/login"
             element={

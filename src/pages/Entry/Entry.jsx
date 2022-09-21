@@ -1,8 +1,10 @@
 import React from "react";
 import "tailwindcss/tailwind.css";
+import { useNavigate } from "react-router-dom";
 
 function Entry(props) {
   const { logout } = props;
+  const navigate = useNavigate();
   return (
     <div className="mx-8">
       <div>
@@ -53,7 +55,10 @@ function Entry(props) {
       <button
         className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
         type="button"
-        onclick={logout}
+        onClick={() => {
+          logout();
+          navigate("/login");
+        }}
       >
         logout
       </button>
