@@ -26,7 +26,6 @@ function App() {
   const [user, setUser] = useState({});
   const [hasAccount, setHasAccount] = useState(false);
   const [passwordShown, setPasswordShown] = useState(false);
-  const [showModal, setShowModal] = useState(false);
 
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
@@ -61,14 +60,13 @@ function App() {
         setRegEmailError("Enter valid email");
       } else if (error.code === "auth/weak-password") {
         setRegPasswordError("Password must be more than 6 characters");
-      } else if (error.code === "auth/email-already-use") {
+      } else if (error.code === "auth/email-already-in-use") {
         setRegEmailError("Email already in use");
       } else {
         setRegEmailError(error.message);
         setRegPasswordError(error.message);
       }
     }
-    setShowModal();
   };
 
   const login = async () => {
@@ -111,22 +109,11 @@ function App() {
     setRegPasswordError("");
   };
 
-  // const validatePassword = () => {
-  //   let isValid = true;
-  //   if (password !== "" && confirmPassword !== "") {
-  //     if (password !== confirmPassword) {
-  //       isValid = false;
-  //       setError("Passwords does not match");
-  //     }
-  //   }
-  //   return isValid;
-  // };
-
   return (
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/entry" element={<Entry />} />
+          <Route logout={logout} path="/entry" element={<Entry />} />
           <Route
             path="/login"
             element={
@@ -168,8 +155,6 @@ function App() {
                 regPasswordError={regPasswordError}
                 setRegEmailError={setRegEmailError}
                 setLoginPasswordError={setLoginPasswordError}
-                showModal={showModal}
-                setShowModal={setShowModal}
                 user={user}
                 setUser={setUser}
                 logout={logout}

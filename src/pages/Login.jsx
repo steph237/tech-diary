@@ -2,7 +2,7 @@ import React from "react";
 import "tailwindcss/tailwind.css";
 
 import GetImages from "../components/Getimages";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login(props) {
   const {
@@ -23,6 +23,8 @@ function Login(props) {
     login,
     setLoginPassword,
   } = props;
+
+ const navigate = useNavigate();
 
   return (
     <div className=" flex mx-8 ">
@@ -83,7 +85,10 @@ function Login(props) {
                 <button
                   type="submit"
                   className="bg-blue-700 text-white font-bold py-2 px-4 mr-4 rounded focus:ring focus:ring-blue-300 hover:bg-blue-500"
-                  onClick={login}
+                   onClick={() => {
+                    login();
+                    navigate("/entry");
+                  }}
                 >
                   Login
                 </button>
