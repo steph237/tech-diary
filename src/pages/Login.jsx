@@ -3,18 +3,15 @@ import "tailwindcss/tailwind.css";
 
 import GetImages from "../components/Getimages";
 import { Link, useNavigate } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { useState, useEffect } from "react";
+import { auth } from "../firebase-config";
 
 function Login(props) {
   const {
     passwordShown,
-    setPasswordShown,
     togglePassword,
     hasAccount,
-    setHasAccount,
-    emailError,
-    passwordError,
-    setLoginEmailError,
-    setLoginPasswordError,
     loginEmailError,
     loginPasswordError,
     loginEmail,
@@ -22,9 +19,24 @@ function Login(props) {
     loginPassword,
     login,
     setLoginPassword,
+    clearInputs,
   } = props;
-
- const navigate = useNavigate();
+  const [user, setUser] = useState({});
+  const navigate = useNavigate();
+  const authListener = () => {
+    onAuthStateChanged(auth, (currentUser) => {
+      if (user) {
+        clearInputs();
+        // navigate("/entry");
+        setUser(currentUser);
+      } else {
+        setUser("");
+      }
+    });
+  };
+  useEffect(() => {
+    authListener();
+  }, []);
 
   return (
     <div className=" flex mx-8 ">
@@ -85,9 +97,8 @@ function Login(props) {
                 <button
                   type="submit"
                   className="bg-blue-700 text-white font-bold py-2 px-4 mr-4 rounded focus:ring focus:ring-blue-300 hover:bg-blue-500"
-                   onClick={() => {
+                  onClick={() => {
                     login();
-                    navigate("/entry");
                   }}
                 >
                   Login

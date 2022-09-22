@@ -5,9 +5,7 @@ import { useState, useEffect } from "react";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Entry from "./pages/Entry/Entry";
-
-// import { useNavigate } from "@react-navigation/native";
-
+// import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
@@ -33,20 +31,6 @@ function App() {
     setPasswordShown(!passwordShown);
   };
 
-  const authListener = () => {
-    onAuthStateChanged(auth, (currentUser) => {
-      if (user) {
-        clearInputs();
-
-        setUser(currentUser);
-      } else {
-        setUser("");
-      }
-    });
-  };
-  useEffect(() => {
-    authListener();
-  }, []);
 
   const register = async () => {
     clearError();
@@ -135,6 +119,8 @@ function App() {
                 setLoginEmailError={setLoginEmailError}
                 setLoginPasswordError={setLoginPasswordError}
                 login={login}
+                clearError={clearError}
+                clearInputs={clearInputs}
               />
             }
           />
