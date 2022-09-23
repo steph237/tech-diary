@@ -1,34 +1,52 @@
 import React from "react";
 import "tailwindcss/tailwind.css";
-
 import GetImages from "../components/Getimages";
 import { Link, useNavigate } from "react-router-dom";
-import { onAuthStateChanged } from "firebase/auth";
-import { useState, useEffect } from "react";
+import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase-config";
+import { useState, useEffect } from "react";
 
 function Login(props) {
-  const {
-    passwordShown,
-    togglePassword,
-    hasAccount,
-    loginEmailError,
-    loginPasswordError,
-    loginEmail,
-    setLoginEmail,
-    loginPassword,
-    login,
-    setLoginPassword,
-    clearInputs,
-  } = props;
-  const [user, setUser] = useState({});
+  const { togglePassword, hasAccount, clearError, user, setUser, clearInputs } =
+    props;
+
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loginEmailError, setLoginEmailError] = useState("");
+  const [loginPasswordError, setLoginPasswordError] = useState("");
+  const [passwordShown, setPasswordShown] = useState(false);
   const navigate = useNavigate();
+
+  const login = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword
+      );
+      console.log(user);
+    } catch (error) {
+      // eslint-disable-next-line default-case
+      if (error.code === "auth/invalid-email") {
+        setLoginEmailError("Enter valid email");
+      } else if (error.code === "auth/user-disabled") {
+        setLoginEmailError("User account has been disabled");
+      } else if (error.code === "auth/user-not-found") {
+        setLoginEmailError("User account does not exist please SignUp");
+      } else {
+        setLoginEmailError(error.message);
+        setLoginPasswordError(error.message);
+      }
+    }
+    navigate("/entry");
+  };
+
   const authListener = () => {
     onAuthStateChanged(auth, (currentUser) => {
       if (user) {
         clearInputs();
-        // navigate("/entry");
         setUser(currentUser);
+        navigate("/entry");
       } else {
         setUser("");
       }

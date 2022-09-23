@@ -1,18 +1,12 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Entry from "./pages/Entry/Entry";
-// import { useNavigate } from "react-router-dom";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
 import { auth } from "./firebase-config";
+import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 
 function App() {
   const [registerEmail, setRegisterEmail] = useState("");
@@ -30,7 +24,6 @@ function App() {
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
   };
-
 
   const register = async () => {
     clearError();
@@ -51,30 +44,6 @@ function App() {
       } else {
         setRegEmailError(error.message);
         setRegPasswordError(error.message);
-      }
-    }
-  };
-
-  const login = async () => {
-    clearError();
-    try {
-      const user = await signInWithEmailAndPassword(
-        auth,
-        loginEmail,
-        loginPassword
-      );
-      console.log(user);
-    } catch (error) {
-      // eslint-disable-next-line default-case
-      if (error.code === "auth/invalid-email") {
-        setLoginEmailError("Enter valid email");
-      } else if (error.code === "auth/user-disabled") {
-        setLoginEmailError("User account has been disabled");
-      } else if (error.code === "auth/user-not-found") {
-        setLoginEmailError("User account does not exist please SignUp");
-      } else {
-        setLoginEmailError(error.message);
-        setLoginPasswordError(error.message);
       }
     }
   };
@@ -118,9 +87,7 @@ function App() {
                 loginPasswordError={loginPasswordError}
                 setLoginEmailError={setLoginEmailError}
                 setLoginPasswordError={setLoginPasswordError}
-                login={login}
-                clearError={clearError}
-                clearInputs={clearInputs}
+               
               />
             }
           />
