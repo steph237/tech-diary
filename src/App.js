@@ -69,7 +69,7 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/entry" element={<Entry logout={logout} />} />
+          <Route path="/entry" element={<Entry logout={logout} user= {user}/>} />
           <Route
             path="/login"
             element={
@@ -87,7 +87,8 @@ function App() {
                 loginPasswordError={loginPasswordError}
                 setLoginEmailError={setLoginEmailError}
                 setLoginPasswordError={setLoginPasswordError}
-               
+                user={user}
+                setUser={setUser}
               />
             }
           />
