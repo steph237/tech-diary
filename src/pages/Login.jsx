@@ -5,9 +5,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase-config";
 import { useState, useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 function Login(props) {
-  const { togglePassword, hasAccount, clearError, user, setUser, clearInputs } =
+  const { togglePassword, hasAccount, clearError, setUser, clearInputs } =
     props;
 
   const [loginEmail, setLoginEmail] = useState("");
@@ -17,6 +18,8 @@ function Login(props) {
   const [passwordShown, setPasswordShown] = useState(false);
   const navigate = useNavigate();
 
+  const [user] = useAuthState(auth);
+
   const login = async () => {
     try {
       const user = await signInWithEmailAndPassword(
@@ -24,6 +27,7 @@ function Login(props) {
         loginEmail,
         loginPassword
       );
+      navigate("/entry");
       console.log(user);
     } catch (error) {
       // eslint-disable-next-line default-case
@@ -38,7 +42,6 @@ function Login(props) {
         setLoginPasswordError(error.message);
       }
     }
-    navigate("/entry");
   };
 
   const authListener = () => {
@@ -135,6 +138,7 @@ function Login(props) {
           <h1> </h1>
         </div>
       </div>
+
     </div>
   );
 }
