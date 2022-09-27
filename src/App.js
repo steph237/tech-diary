@@ -7,7 +7,7 @@ import SignUp from "./pages/SignUp";
 import Entry from "./pages/Entry/Entry";
 import { auth } from "./firebase-config";
 import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
-
+import EntryForm from "./pages/Entry/entry-form";
 function App() {
   const [registerEmail, setRegisterEmail] = useState("");
   const [loginEmail, setLoginEmail] = useState("");

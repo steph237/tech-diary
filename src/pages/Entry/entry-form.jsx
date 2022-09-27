@@ -5,10 +5,12 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../firebase-config";
 import { auth } from "../../firebase-config";
+import { signOut } from "firebase/auth";
 
 function EntryForm(props) {
-  const { logout } = props;
   const navigate = useNavigate();
   const [user] = useAuthState(auth);
   const schema = yup.object().shape({
@@ -16,13 +18,34 @@ function EntryForm(props) {
     entrybody: yup.string().required("Please enter text..."),
     date: yup.date().required("Please select date... "),
   });
-  const { register, handleSubmit } = useForm({
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const onCreateEntry = (data) => {
+  const entryRef = collection(db, "diary-entry");
+
+  const onCreateEntry = async (data) => {
+    await addDoc(entryRef, {
+      ...data,
+      //   title: data.title,
+      //   entrybody: data.entrybody,
+      //   date: data.date,
+      username: user?.email,
+      userId: user?.uid,
+    });
     console.log(data);
   };
+
+  const logout = async () => {
+    await signOut(auth);
+    console.log("fuck");
+  };
+
   return (
     <div className="mx-8">
       <div>
@@ -42,7 +65,8 @@ function EntryForm(props) {
               className="w-64 bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             ></input>{" "}
           </div>
-
+          <p style={{ color: "red" }}> {errors.title?.message}</p>
+          {/* <p style={{ color: "red" }}> {errors.date?.message}</p> */}
           <div className="pb-6"></div>
           <div>
             <textarea
@@ -52,6 +76,7 @@ function EntryForm(props) {
               className="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               placeholder="What happened today..."
             ></textarea>
+            <p style={{ color: "red" }}> {errors.entrybody?.message}</p>
           </div>
           <div className="entry-submit space-x-4 py-4">
             <div>
