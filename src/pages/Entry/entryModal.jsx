@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 export default function EntryModal() {
-  const [showModal, setShowModal] = React.useState(true);
+  const [showModal, setShowModal] = React.useState(false);
   const [title, setTitle] = useState("");
   const [entrybody, setEntryBody] = useState("");
   const [date, setDate] = useState("");
-  const clearInputs = () => {
-    setTitle("");
-    setEntryBody("");
-  };
+  // const clearInputs = () => {
+  //   setTitle("");
+  //   setEntryBody("");
+  // };
   const handleClose = () => {
     setShowModal(false);
   };

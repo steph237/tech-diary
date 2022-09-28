@@ -9,9 +9,11 @@ import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../firebase-config";
 import { auth } from "../../firebase-config";
 import { signOut } from "firebase/auth";
+import { useState } from "react";
 
 function EntryForm(props) {
   const navigate = useNavigate();
+  const [showModal, setShowModal] = React.useState(false);
   const [user] = useAuthState(auth);
   const schema = yup.object().shape({
     title: yup.string().required("Please enter title..."),
@@ -39,11 +41,19 @@ function EntryForm(props) {
       userId: user?.uid,
     });
     console.log(data);
+    openModal();
   };
 
   const logout = async () => {
     await signOut(auth);
     console.log("fuck");
+  };
+
+  const handleClose = () => {
+    setShowModal(false);
+  };
+  const openModal = () => {
+    setShowModal(true);
   };
 
   return (
@@ -66,7 +76,7 @@ function EntryForm(props) {
             ></input>{" "}
           </div>
           <p style={{ color: "red" }}> {errors.title?.message}</p>
-          {/* <p style={{ color: "red" }}> {errors.date?.message}</p> */}
+          <p style={{ color: "red" }}> {errors.date?.message}</p>
           <div className="pb-6"></div>
           <div>
             <textarea
@@ -92,6 +102,43 @@ function EntryForm(props) {
           </div>
         </form>
       </div>
+      {showModal ? (
+        <>
+          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              {/*content*/}
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                {/*header*/}
+                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                  <h3 className="text-3xl font-semibold">Yayyyy!!!</h3>
+                </div>
+                {/*body*/}
+                <div className="relative p-6 flex-auto">
+                  <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                    Diary entry successfully recorded
+                  </p>
+                </div>
+                {/*footer*/}
+
+                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                  <p className="cursor-pointer text-blue-500 pr-8">
+                    View all entries
+                  </p>
+
+                  <button
+                    className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={handleClose}
+                  >
+                    New entry
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
       <button
         className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
         type="button"

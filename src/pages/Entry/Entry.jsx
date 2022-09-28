@@ -1,6 +1,6 @@
 import React from "react";
 import "tailwindcss/tailwind.css";
-import EntryModal from "./entryModal";
+// import EntryModal from "./entryModal";
 import EntryForm from "./entry-form";
 
 function Entry() {
@@ -13,7 +13,6 @@ function Entry() {
           My Daily Dairy Entry{" "}
         </h1>
         <EntryForm />
-        <EntryModal />
       </div>
     </div>
   );
