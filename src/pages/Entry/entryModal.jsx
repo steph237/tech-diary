@@ -7,12 +7,13 @@ export default function EntryModal() {
   const [title, setTitle] = useState("");
   const [entrybody, setEntryBody] = useState("");
   const [date, setDate] = useState("");
-  // const clearInputs = () => {
-  //   setTitle("");
-  //   setEntryBody("");
-  // };
+  const clearInputs = () => {
+    setTitle("");
+    setEntryBody("");
+  };
   const handleClose = () => {
     setShowModal(false);
+    clearInputs();
   };
 
   return (

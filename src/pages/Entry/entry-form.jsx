@@ -46,10 +46,10 @@ function EntryForm(props) {
 
   const logout = async () => {
     await signOut(auth);
-    console.log("fuck");
   };
 
   const handleClose = () => {
+    document.getElementById("entry-form").reset();
     setShowModal(false);
   };
   const openModal = () => {
@@ -59,7 +59,7 @@ function EntryForm(props) {
   return (
     <div className="mx-8">
       <div>
-        <form onSubmit={handleSubmit(onCreateEntry)}>
+        <form id = "entry-form" onSubmit={handleSubmit(onCreateEntry)}>
           <div className="flex">
             {" "}
             <input
